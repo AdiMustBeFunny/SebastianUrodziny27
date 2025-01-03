@@ -1,7 +1,14 @@
 const canvas = document.querySelector('canvas');
-const c = canvas.getContext('2d');
-
+const pointsDOMElement = document.querySelector('.points-value');
+const pointsContainerDOMElement = document.querySelector('.points-container');
 const releaseXatronsButton = document.querySelector('.release-xatrons');
+const wishDOMElement = document.querySelector('.wish-container');
+const wishToggleButtonDOMElement = document.querySelector('.wish-toggle-button');
+const moreXatronsButtonDOMElement = document.querySelector('.more-xatrons-button');
+
+
+
+const c = canvas.getContext('2d');
 
 const mouse = {
     x: window.innerWidth / 2,
@@ -25,6 +32,7 @@ const gameState = {
     sprites: []
 }
 
+let requestCreateMoreXatrons = false
 
 window.addEventListener('resize', () => {
     canvas.width = window.innerWidth
@@ -75,6 +83,8 @@ window.addEventListener('click', (e) => {
         gameState.sprites.splice(idx, 1)
     })
     gameState.score += clickedSprites.length
+
+    pointsDOMElement.innerHTML = gameState.score
 })
 
 releaseXatronsButton.addEventListener('click', (e) => {
@@ -82,7 +92,25 @@ releaseXatronsButton.addEventListener('click', (e) => {
     startGame()
 })
 
+wishToggleButtonDOMElement.addEventListener('click', (e) => {
+    if(wishDOMElement.style.display == 'flex'){
+        wishDOMElement.style.display = 'none'
+    }
+    else {
+        wishDOMElement.style.display = 'flex'
+    }
+})
+
+moreXatronsButtonDOMElement.addEventListener('click', e => {
+ requestCreateMoreXatrons = true;
+})
+
 function startGame(){
+    wishDOMElement.style.display = 'none'
+    wishToggleButtonDOMElement.style.display = 'block'
+    pointsContainerDOMElement.style.display = 'block'
+    moreXatronsButtonDOMElement.style.display = 'block'
+
     for(let i = 0; i < gameSettings.initialSpriteCount; i++){
         gameState.sprites.push(createSprite())
     }
@@ -90,9 +118,31 @@ function startGame(){
     window.requestAnimationFrame(loop)
 }
 
+/*
+Needs to be called from within animaiomFrame loop
+*/
+function moreXatrons(){
+    for(let i = 0; i < 10; i++){
+        gameState.sprites.push(createSprite())
+    }
+}
+
 function loop(){
     c.clearRect(0,0,canvas.width,canvas.height)
-    c.fillText('HTML Canvas', mouse.x, mouse.y)
+    // c.fillText('HTML Canvas', mouse.x, mouse.y)
+
+    if(requestCreateMoreXatrons){
+        requestCreateMoreXatrons = false;
+        moreXatrons()
+    }
+
+    if(gameState.sprites.length === 0){
+        releaseXatronsButton.disabled = false
+        wishDOMElement.style.display = 'flex'
+        moreXatronsButtonDOMElement.style.display = 'none'
+        wishToggleButtonDOMElement.style.display = 'none'
+        return
+    }
 
     gameState.sprites.forEach(sprite => {
         sprite.x += (sprite.speed ) * sprite.direction.x
