@@ -40,6 +40,7 @@ canvas{
     background: rgb(253, 255, 0);
     border-radius: 1rem;
     border: .3rem solid black;
+    user-select: none;
 }
 
 .wish-container p {
@@ -75,6 +76,7 @@ canvas{
     border: .3rem solid black;
     border-radius: 1rem;
     padding: .7rem;
+    user-select: none;
 }
 
 .wish-toggle-container{
@@ -91,6 +93,7 @@ canvas{
     cursor: pointer;
     color: white;
     background: black;
+    user-select: none;
 }
 
 .more-xatrons-container{
@@ -107,4 +110,5 @@ canvas{
     cursor: pointer;
     color: white;
     background: black;
+    user-select: none;
 }
