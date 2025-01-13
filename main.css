@@ -47,8 +47,10 @@ canvas{
     text-align: center;
     margin-top: 1rem;
     font-size: 1.3rem;
+    padding: 0 .5rem;
 }
 
+.close-wishes,
 .release-xatrons{
     padding: 1rem;
     font-size: 1.3rem;
@@ -57,6 +59,10 @@ canvas{
     color: white;
     background: black;
     margin-bottom: 1rem;
+}
+
+.close-wishes{
+    display: none;
 }
 
 .release-xatrons:disabled{

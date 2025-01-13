@@ -5,6 +5,7 @@ const releaseXatronsButton = document.querySelector('.release-xatrons');
 const wishDOMElement = document.querySelector('.wish-container');
 const wishToggleButtonDOMElement = document.querySelector('.wish-toggle-button');
 const moreXatronsButtonDOMElement = document.querySelector('.more-xatrons-button');
+const closeWishesButtonDOMElement = document.querySelector('.close-wishes');
 
 
 
@@ -88,18 +89,25 @@ window.addEventListener('click', (e) => {
 })
 
 releaseXatronsButton.addEventListener('click', (e) => {
-    releaseXatronsButton.disabled = true
+    // releaseXatronsButton.disabled = true
     startGame()
 })
 
 wishToggleButtonDOMElement.addEventListener('click', (e) => {
+    closeWishes()
+})
+closeWishesButtonDOMElement.addEventListener('click', (e) => {
+    closeWishes()
+})
+
+function closeWishes(){
     if(wishDOMElement.style.display == 'flex'){
         wishDOMElement.style.display = 'none'
     }
     else {
         wishDOMElement.style.display = 'flex'
     }
-})
+}
 
 moreXatronsButtonDOMElement.addEventListener('click', e => {
  requestCreateMoreXatrons = true;
@@ -107,9 +115,12 @@ moreXatronsButtonDOMElement.addEventListener('click', e => {
 
 function startGame(){
     wishDOMElement.style.display = 'none'
+    releaseXatronsButton.style.display = 'none'
+
     wishToggleButtonDOMElement.style.display = 'block'
     pointsContainerDOMElement.style.display = 'block'
     moreXatronsButtonDOMElement.style.display = 'block'
+    closeWishesButtonDOMElement.style.display = 'block'
 
     for(let i = 0; i < gameSettings.initialSpriteCount; i++){
         gameState.sprites.push(createSprite())
@@ -137,7 +148,10 @@ function loop(){
     }
 
     if(gameState.sprites.length === 0){
-        releaseXatronsButton.disabled = false
+        // releaseXatronsButton.disabled = false
+        closeWishesButtonDOMElement.style.display = 'none'
+        releaseXatronsButton.style.display = 'block'
+
         wishDOMElement.style.display = 'flex'
         moreXatronsButtonDOMElement.style.display = 'none'
         wishToggleButtonDOMElement.style.display = 'none'
